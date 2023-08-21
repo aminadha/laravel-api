@@ -28,10 +28,16 @@ class OrganizationsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
+        $validatedInput = $request->validate([
+            'name' => ['required', 'unique:organizations'],
+            'address' => 'required',
+            'postcode' => ['required', 'min:5'],
+            'state' => 'required',
+            'staff_count' => 'numeric'
+        ]);
 
         $organization = new Organization();
-        $organization->fill($input);
+        $organization->fill($validatedInput);
         $organization->save();
 
         return [
@@ -63,15 +69,21 @@ class OrganizationsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $inputs = $request->all();
+        $validatedInput = $request->validate([
+            'name' => ['required', 'unique:organizations,name,' . $id],
+            'address' => 'required',
+            'postcode' => ['required', 'min:5'],
+            'state' => 'required',
+            'staff_count' => 'numeric'
+        ]);
 
         // find record by $id
         $organization = Organization::find($id);
 
         // update organization data 
-        $organization->fill($inputs);
-        $organization->name = strtoupper(trim($inputs['name']));
-        $organization->address = trim($inputs['address']);
+        $organization->fill($validatedInput);
+        $organization->name = strtoupper(trim($validatedInput['name']));
+        $organization->address = trim($validatedInput['address']);
 
         // save organization to db
         $organization->save();
@@ -88,11 +100,11 @@ class OrganizationsController extends Controller
 
         $organization->delete();
 
-        return [
+        return response()->json([
             'success' => true,
             'data' => null,
             'message' => 'Record deleted'
-        ];
+        ]);
     }
 
     public function restore(string $id)
@@ -114,7 +126,7 @@ class OrganizationsController extends Controller
 
         return [
             'success' => true,
-            'data' => $organization,
+            'data' => null,
             'message' => 'Record force deleted'
         ];
     }
