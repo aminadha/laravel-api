@@ -106,4 +106,16 @@ class OrganizationsController extends Controller
             'message' => 'Record restored'
         ];
     }
+
+    public function forceDelete(string $id)
+    {
+        $organization = Organization::withTrashed()->findOrfail($id);
+        $organization->forceDelete();
+
+        return [
+            'success' => true,
+            'data' => $organization,
+            'message' => 'Record force deleted'
+        ];
+    }
 }

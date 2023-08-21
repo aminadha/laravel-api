@@ -29,6 +29,7 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('organizations', OrganizationsController::class);
     Route::get('organizations/restore/{organization}', [OrganizationsController::class, 'restore']);
+    Route::delete('organizations/force-delete/{organization}', [OrganizationsController::class, 'forceDelete']);
     // Route::get('organizations', [OrganizationsController::class, 'index']);
     // Route::get('organizations', [OrganizationsController::class, 'show']);
     // Route::post('organizations', [OrganizationsController::class, 'store']);
