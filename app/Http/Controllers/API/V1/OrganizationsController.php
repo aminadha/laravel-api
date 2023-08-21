@@ -31,7 +31,7 @@ class OrganizationsController extends Controller
         $validatedInput = $request->validate([
             'name' => ['required', 'unique:organizations'],
             'address' => 'required',
-            'postcode' => ['required', 'min:5'],
+            'postcode' => ['required', 'digits:5'],
             'state' => 'required',
             'staff_count' => 'numeric'
         ]);
@@ -72,7 +72,7 @@ class OrganizationsController extends Controller
         $validatedInput = $request->validate([
             'name' => ['required', 'unique:organizations,name,' . $id],
             'address' => 'required',
-            'postcode' => ['required', 'min:5'],
+            'postcode' => ['required', 'digits:5'],
             'state' => 'required',
             'staff_count' => 'numeric'
         ]);
