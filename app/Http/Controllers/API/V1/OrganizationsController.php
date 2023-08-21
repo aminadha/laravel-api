@@ -16,6 +16,8 @@ class OrganizationsController extends Controller
     public function index()
     {
         $data = Organization::get();
+        // $data = Organization::withTrashed()->get();
+        // $data = Organization::onlyTrashed()->get();
         // $data = Organization::paginate(5);
 
         return new OrganizationCollection($data);
@@ -82,6 +84,26 @@ class OrganizationsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $organization = Organization::findOrFail($id);
+
+        $organization->delete();
+
+        return [
+            'success' => true,
+            'data' => null,
+            'message' => 'Record deleted'
+        ];
+    }
+
+    public function restore(string $id)
+    {
+        $organization = Organization::onlyTrashed()->findOrfail($id);
+        $organization->restore();
+
+        return [
+            'success' => true,
+            'data' => $organization,
+            'message' => 'Record restored'
+        ];
     }
 }
