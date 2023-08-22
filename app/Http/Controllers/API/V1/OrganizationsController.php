@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
 use App\Models\Organization;
@@ -26,15 +27,9 @@ class OrganizationsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreOrganizationRequest $request)
     {
-        $validatedInput = $request->validate([
-            'name' => ['required', 'unique:organizations'],
-            'address' => 'required',
-            'postcode' => ['required', 'digits:5'],
-            'state' => 'required',
-            'staff_count' => 'numeric'
-        ]);
+        $validatedInput = $request->validated();
 
         $organization = new Organization();
         $organization->fill($validatedInput);

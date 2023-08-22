@@ -22,7 +22,24 @@ class StoreOrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'unique:organizations'],
+            'address' => 'required',
+            'postcode' => ['required', 'digits:5'],
+            'state' => 'required',
+            'staff_count' => 'numeric'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama organisasi adalah wajib diisi',
+            'address.required' => 'Input Alamat diperlukan',
         ];
     }
 }
