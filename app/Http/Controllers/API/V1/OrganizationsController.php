@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Actions\Organizations\CreateOrganization;
+use App\Actions\Organization\CreateOrganization;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
