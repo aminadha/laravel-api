@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreOrganizationRequest extends FormRequest
 {
@@ -22,12 +23,23 @@ class StoreOrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'slug' => ['required'],
             'name' => ['required', 'unique:organizations'],
             'address' => 'required',
             'postcode' => ['required', 'digits:5'],
             'state' => 'required',
             'staff_count' => 'numeric'
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'slug' => Str::slug($this->name),
+        ]);
     }
 
     /**
