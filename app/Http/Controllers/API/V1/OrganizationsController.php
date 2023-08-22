@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Actions\Organizations\CreateOrganization;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
@@ -28,16 +29,13 @@ class OrganizationsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrganizationRequest $request)
+    public function store(StoreOrganizationRequest $request, CreateOrganization $action)
     {
         $validatedInput = $request->validated();
-
-        $organization = new Organization();
-        $organization->fill($validatedInput);
-        $organization->save();
+        $data = $action->execute($validatedInput, new Organization);
 
         return [
-            'data' => $organization,
+            'data' => $data,
             'message' => 'Organization created successfully',
         ];
     }
