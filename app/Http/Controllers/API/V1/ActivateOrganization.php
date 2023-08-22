@@ -17,13 +17,19 @@ class ActivateOrganization extends Controller
             'id' => 'required'
         ]);
 
-        $organization = Organization::find($validatedInput['id']);
+        $organization = Organization::findOrFail($validatedInput['id']);
+
+        if ($organization->status == 'active') {
+            return ['message' => 'Organization already activated'];
+        }
+
         $organization->status = 'active';
         $organization->activated_at = now();
         $organization->save();
 
         return response()->json([
-            $organization
+            'data' => $organization,
+            'message' => 'Organization successfully activated'
         ]);
     }
 }

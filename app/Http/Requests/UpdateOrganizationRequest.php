@@ -22,7 +22,11 @@ class UpdateOrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'unique:organizations,name,' . $this->organization],
+            'address' => 'required',
+            'postcode' => ['required', 'digits:5'],
+            'state' => 'required',
+            'staff_count' => 'numeric'
         ];
     }
 }

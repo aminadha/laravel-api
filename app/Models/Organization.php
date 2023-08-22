@@ -15,7 +15,18 @@ class Organization extends Model
         'address',
         'city',
         'postcode',
-        'staff_count'
+        'staff_count',
+        'status',
+        'activated_at'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'activated_at' => 'datetime:Y-m-d',
     ];
 
     /* relationships */

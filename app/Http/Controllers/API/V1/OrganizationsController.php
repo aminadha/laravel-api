@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
+use App\Http\Requests\UpdateOrganizationRequest;
 use App\Http\Resources\OrganizationCollection;
 use App\Http\Resources\OrganizationResource;
 use App\Models\Organization;
@@ -62,15 +63,9 @@ class OrganizationsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateOrganizationRequest $request, string $id)
     {
-        $validatedInput = $request->validate([
-            'name' => ['required', 'unique:organizations,name,' . $id],
-            'address' => 'required',
-            'postcode' => ['required', 'digits:5'],
-            'state' => 'required',
-            'staff_count' => 'numeric'
-        ]);
+        $validatedInput = $request->validated();
 
         // find record by $id
         $organization = Organization::find($id);
