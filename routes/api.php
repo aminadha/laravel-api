@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\V1\ActivateOrganization;
 use App\Http\Controllers\API\V1\BranchesController;
+use App\Http\Controllers\API\V1\EmployeesController;
 use App\Http\Controllers\API\V1\OrganizationsController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +30,15 @@ Route::get('/test', function () {
 
 
 Route::prefix('v1')->group(function () {
+    // protected routes
+    Route::middleware(['auth:sanctum'])->group(function () {
+    });
 
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+
+    // Route::middleware('auth:sanctum')->group(function () {
     // organizations
     Route::apiResource('organizations', OrganizationsController::class);
     Route::post('organizations/restore/{organization}', [OrganizationsController::class, 'restore']);
@@ -42,5 +53,12 @@ Route::prefix('v1')->group(function () {
     // Route::patch('organizations/{id}', [OrganizationsController::class, 'update']);
     // Route::delete('organizations/{id}', [OrganizationsController::class, 'destroy']);
 
-    Route::get('branches', [BranchesController::class, 'index']);
+    // branches
+    Route::apiResource('branches', BranchesController::class);
+    Route::post('branches/restore/{branch}', [BranchesController::class, 'restore']);
+    Route::delete('branches/force-delete/{branch}', [BranchesController::class, 'forceDelete']);
+
+    // employees
+    Route::apiResource('employees', EmployeesController::class);
+    // });
 });
