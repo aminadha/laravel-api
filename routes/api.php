@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\Api\V1\ActivateOrganization;
 use App\Http\Controllers\API\V1\BranchesController;
 use App\Http\Controllers\API\V1\EmployeesController;
