@@ -18,12 +18,12 @@ class OrganizationsController extends Controller
      */
     public function index()
     {
-        $data = Organization::get();
+        $data = Organization::with('branches')->get();
         // $data = Organization::withTrashed()->get();
         // $data = Organization::onlyTrashed()->get();
         // $data = Organization::paginate(5);
 
-        return new OrganizationCollection($data);
+        return $data;
     }
 
     /**

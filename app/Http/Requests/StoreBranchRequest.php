@@ -11,7 +11,7 @@ class StoreBranchRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreBranchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'organization_id' => 'required',
+            'manager_id' => 'nullable',
+            'name' => ['required', 'max:255', 'unique:branches']
         ];
     }
 }
