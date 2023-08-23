@@ -30,35 +30,36 @@ Route::get('/test', function () {
 
 
 Route::prefix('v1')->group(function () {
-    // protected routes
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-    });
-
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 
-    // Route::middleware('auth:sanctum')->group(function () {
-    // organizations
-    Route::apiResource('organizations', OrganizationsController::class);
-    Route::post('organizations/restore/{organization}', [OrganizationsController::class, 'restore']);
-    Route::delete('organizations/force-delete/{organization}', [OrganizationsController::class, 'forceDelete']);
+    // protected routes
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/test', function () {
+            return 'logged in';
+        });
+        Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::post('activate-organization', ActivateOrganization::class);
+        // organizations
+        Route::apiResource('organizations', OrganizationsController::class);
+        Route::post('organizations/restore/{organization}', [OrganizationsController::class, 'restore']);
+        Route::delete('organizations/force-delete/{organization}', [OrganizationsController::class, 'forceDelete']);
 
-    // Route::get('organizations', [OrganizationsController::class, 'index']);
-    // Route::get('organizations', [OrganizationsController::class, 'show']);
-    // Route::post('organizations', [OrganizationsController::class, 'store']);
-    // Route::put('organizations/{id}', [OrganizationsController::class, 'update']);
-    // Route::patch('organizations/{id}', [OrganizationsController::class, 'update']);
-    // Route::delete('organizations/{id}', [OrganizationsController::class, 'destroy']);
+        Route::post('activate-organization', ActivateOrganization::class);
 
-    // branches
-    Route::apiResource('branches', BranchesController::class);
-    Route::post('branches/restore/{branch}', [BranchesController::class, 'restore']);
-    Route::delete('branches/force-delete/{branch}', [BranchesController::class, 'forceDelete']);
+        // Route::get('organizations', [OrganizationsController::class, 'index']);
+        // Route::get('organizations', [OrganizationsController::class, 'show']);
+        // Route::post('organizations', [OrganizationsController::class, 'store']);
+        // Route::put('organizations/{id}', [OrganizationsController::class, 'update']);
+        // Route::patch('organizations/{id}', [OrganizationsController::class, 'update']);
+        // Route::delete('organizations/{id}', [OrganizationsController::class, 'destroy']);
 
-    // employees
-    Route::apiResource('employees', EmployeesController::class);
-    // });
+        // branches
+        Route::apiResource('branches', BranchesController::class);
+        Route::post('branches/restore/{branch}', [BranchesController::class, 'restore']);
+        Route::delete('branches/force-delete/{branch}', [BranchesController::class, 'forceDelete']);
+
+        // employees
+        Route::apiResource('employees', EmployeesController::class);
+    });
 });
