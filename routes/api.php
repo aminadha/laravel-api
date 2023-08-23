@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\ActivateOrganization;
 use App\Http\Controllers\API\V1\BranchesController;
 use App\Http\Controllers\API\V1\EmployeesController;
 use App\Http\Controllers\API\V1\OrganizationsController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +43,11 @@ Route::prefix('v1')->group(function () {
 
         // organizations
         Route::apiResource('organizations', OrganizationsController::class);
-        Route::post('organizations/restore/{organization}', [OrganizationsController::class, 'restore']);
-        Route::delete('organizations/force-delete/{organization}', [OrganizationsController::class, 'forceDelete']);
+
+        Route::middleware([IsAdmin::class])->group(function () {
+            Route::post('organizations/restore/{organization}', [OrganizationsController::class, 'restore']);
+            Route::delete('organizations/force-delete/{organization}', [OrganizationsController::class, 'forceDelete']);
+        });
 
         Route::post('activate-organization', ActivateOrganization::class);
 
